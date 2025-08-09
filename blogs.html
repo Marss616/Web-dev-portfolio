@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blogs • Developer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <script defer src="assets/js/main.js"></script>
+</head>
+<body class="dark">
+<header class="site-header">
+  <div class="container nav">
+    <a class="logo" href="index.html"><span>&lt;c/&gt;</span> Jack Bell</a>
+    <nav id="main-nav">
+      <a href="index.html">Home</a>
+      <a href="blogs.html" class="active">Blogs</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button id="theme-toggle" aria-label="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main>
+  <section class="blog-hero">
+    <div class="container">
+      <h1 class="neon">Blogs</h1>
+      <p class="sub">My thoughts on technology and business; welcome to subscribe.</p>
+      <a class="btn ghost" href="#">Subscribe My Blogs</a>
+    </div>
+  </section>
+
+  <section class="blog-list">
+    <div class="container">
+      <article class="blog-row">
+        <img src="assets/img/blog1.png" alt="blog"/>
+        <div>
+          <a href="blog.html"><h3>What does it take to become a web developer?</h3></a>
+          <p>Web development involves a variety of tasks and processes in creating websites for the internet…</p>
+          <a class="link" href="blog.html">Read More →</a>
+          <div class="meta small"><span>Web Developer</span><span>10 Oct 2023</span><span>Read 1 min</span></div>
+        </div>
+      </article>
+
+      <article class="blog-row">
+        <img src="assets/img/blog1.png" alt="blog"/>
+        <div>
+          <a href="blog.html"><h3>Design systems for solo devs</h3></a>
+          <p>Keep your components consistent and scalable without heavy tooling.</p>
+          <a class="link" href="blog.html">Read More →</a>
+          <div class="meta small"><span>Design</span><span>02 Feb 2024</span><span>Read 4 min</span></div>
+        </div>
+      </article>
+
+      <article class="blog-row">
+        <img src="assets/img/blog1.png" alt="blog"/>
+        <div>
+          <a href="blog.html"><h3>From Docker pain to DX gain</h3></a>
+          <p>Practical tips for containerising full‑stack projects smoothly.</p>
+          <a class="link" href="blog.html">Read More →</a>
+          <div class="meta small"><span>DevOps</span><span>14 Jul 2025</span><span>Read 5 min</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p><span id="year"></span>, Jack Bell</p>
+  </div>
+</footer>
+</body>
+</html>
