@@ -1,9 +1,9 @@
 -- Create database (rename if you use a different one in config.php)
-CREATE DATABASE IF NOT EXISTS portfolio
+CREATE DATABASE IF NOT EXISTS u414147218_portfolio
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE portfolio;
+USE u414147218_portfolio;
 
 -- Admin users for admin.php login
 CREATE TABLE IF NOT EXISTS admin_users (

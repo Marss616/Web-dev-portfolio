@@ -1,98 +1,82 @@
-// ===== Contact form + CSRF =====
-const formEl = document.querySelector('.contact-form');
-const csrfEl = document.querySelector('#csrf');
-const submitBtn = formEl?.querySelector('button[type="submit"]');
+document.addEventListener('DOMContentLoaded', async () => {
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 
-// disable submit until token ready
-if (submitBtn) {
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Loading…';
-}
+  const menuButton = document.querySelector('.menu-toggle');
+  const nav = document.getElementById('site-nav');
 
-(async () => {
-  try {
-    const r = await fetch('/server/csrf.php', { credentials: 'same-origin' });
-    const j = await r.json();
-    if (csrfEl && j?.csrf) {
-      csrfEl.value = j.csrf;
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
-      }
-    } else {
-      console.error('No CSRF token returned');
-    }
-  } catch (e) {
-    console.error('CSRF fetch failed', e);
-  }
-})();
-
-formEl?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  // ensure token exists (fallback grab)
-  if (!csrfEl?.value) {
-    try {
-      const r = await fetch('/server/csrf.php', { credentials: 'same-origin' });
-      const j = await r.json();
-      if (csrfEl && j?.csrf) csrfEl.value = j.csrf;
-    } catch {}
-    if (!csrfEl?.value) {
-      alert('Could not initialise security token. Please refresh and try again.');
-      return;
-    }
-  }
-
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-  }
-
-  try {
-    const r = await fetch('/server/contact.php', {
-      method: 'POST',
-      body: new FormData(formEl),
-      credentials: 'same-origin'
+  if (menuButton && nav) {
+    menuButton.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
     });
-    const j = await r.json().catch(() => ({ ok: false, error: 'Bad response' }));
-    alert(j.ok ? 'Thanks! Your message was sent.' : `Error: ${j.error}`);
-    if (j.ok) formEl.reset();
-  } catch {
-    alert('Network error. Please try again.');
-  } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Message';
-    }
-  }
-});
-
-// ===== Dark mode toggle =====
-document.addEventListener('DOMContentLoaded', () => {
-  const body = document.body;
-  const toggle = document.getElementById('theme-toggle');
-
-  if (!toggle) return;
-
-  // Load preferred theme from localStorage
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    body.classList.add('dark');
-  } else if (savedTheme === 'light') {
-    body.classList.remove('dark');
   }
 
-  // Set correct aria-pressed state
-  toggle.setAttribute(
-    'aria-pressed',
-    body.classList.contains('dark') ? 'true' : 'false'
-  );
+  const sections = [...document.querySelectorAll('main section[id]')];
+  const navLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
 
-  // Click handler
-  toggle.addEventListener('click', () => {
-    const isDark = body.classList.toggle('dark');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -45% 0px', threshold: 0 });
 
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-  });
+  sections.forEach((section) => observer.observe(section));
+
+  const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+  try {
+    const response = await fetch('csrf.php', { headers: { 'Accept': 'application/json' } });
+    const data = await response.json();
+    const csrfInput = document.getElementById('csrf');
+    if (csrfInput && data.csrf) csrfInput.value = data.csrf;
+  } catch (error) {
+    console.error('Failed to fetch CSRF token', error);
+  }
+
+  const form = document.querySelector('.contact-form');
+  const status = document.getElementById('form-status');
+
+  if (form && status) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.ok) {
+          form.reset();
+          status.textContent = 'Message sent successfully.';
+          const csrfResponse = await fetch('csrf.php');
+          const csrfData = await csrfResponse.json();
+          const csrfInput = document.getElementById('csrf');
+          if (csrfInput && csrfData.csrf) csrfInput.value = csrfData.csrf;
+        } else {
+          status.textContent = data.error || 'Something went wrong.';
+        }
+      } catch (error) {
+        status.textContent = 'Unable to send message right now.';
+      }
+    });
+  }
 });

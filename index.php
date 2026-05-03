@@ -4,280 +4,344 @@ require __DIR__ . '/config.php';
 
 $stmt = $pdo->query('SELECT id, title, description, tags, link, img1, img2, img3 FROM projects ORDER BY created_at DESC');
 $projects = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
-?>
-<!DOCTYPE html>
+
+$experience = [
+    [
+        'title' => 'Security Engineer / Level 2 SOC',
+        'org' => 'ADF',
+        'period' => '2025 – Current',
+        'summary' => [
+            'Develop detection rules and automated response playbooks.',
+            'Conduct digital forensics and incident response on true positives.',
+            'Implement security controls aligned to ISM expectations.',
+            'Deliver incident reports and stakeholder briefings.',
+            'Provide recommendations aligned with PSPF, ISM, and DSM.'
+        ]
+    ],
+    [
+        'title' => 'Junior Security Analyst / Level 1 SOC',
+        'org' => 'ADF',
+        'period' => '2023 – 2024',
+        'summary' => [
+            'Triaged security events in SOC workflows.',
+            'Filtered false positives from confirmed events.',
+            'Supported analyst uplift and internal training.'
+        ]
+    ],
+    [
+        'title' => 'ICT Field Technician / Network Administrator',
+        'org' => 'ADF',
+        'period' => '2020 – 2023',
+        'summary' => [
+            'Configured Windows Server environments and core services including Active Directory, Exchange, DNS, DHCP, Group Policy, and file sharing.',
+            'Configured and troubleshot network infrastructure including VLANs, IP addressing, subnetting, switching, routing, and network diagnostics.'
+        ]
+    ],
+    [
+        'title' => 'IT Support Technician',
+        'org' => 'NPE',
+        'period' => '2018 – 2020',
+        'summary' => [
+            'Provided end-user support and practical troubleshooting across hardware, software, and desktop environments.'
+        ]
+    ],
+    [
+        'title' => 'Junior Security Engineer',
+        'org' => 'Baidam',
+        'period' => '2017 – 2018',
+        'summary' => [
+            'Supported security engineering activities and foundational monitoring workflows.'
+        ]
+    ],
+];
+
+$education = [
+    ['name' => 'Bachelor of Cyber Security', 'org' => 'La Trobe University', 'period' => '2023 – 2026'],
+    ['name' => 'Diploma of Blockchain Technology', 'org' => 'TAFE QLD', 'period' => '2025 – 2026'],
+    ['name' => 'Cert IV Training and Assessment', 'org' => 'Federation University', 'period' => '2026 – 2027'],
+    ['name' => 'Cert IV Cyber Security', 'org' => 'TAFE QLD', 'period' => '2022 – 2023'],
+    ['name' => 'Cert III ICT', 'org' => 'TAFE QLD', 'period' => '2021 – 2022'],
+];
+
+$certs = [
+    ['name' => 'OffSec Certified Professional (OSCP)', 'org' => 'OffSec', 'period' => '2025'],
+    ['name' => 'CompTIA Security+ and A+', 'org' => 'BHI', 'period' => '2024'],
+    ['name' => 'Cisco Certified Network Associate (CCNA)', 'org' => 'Cisco', 'period' => '2024'],
+    ['name' => 'Joint Cyber Incident Analyst (JCE - JIA)', 'org' => 'DFSS / ADF', 'period' => '2023'],
+    ['name' => 'CWSP', 'org' => 'Cisco', 'period' => '2025'],
+];
+
+$skillGroups = [
+    'Security Operations' => ['SIEM – Splunk, ELK', 'IOC detection and response', 'Incident reporting', 'Event triage', 'Event automation'],
+    'Forensics & Investigation' => ['The Sleuth Kit', 'Velociraptor', 'Network forensics', 'Windows / Linux forensics', 'Mobile phone forensics'],
+    'Systems & Infrastructure' => ['Windows Server 2019', 'Active Directory', 'VMware ESXi', 'Remote desktop support', 'Network setup and configuration', 'IDS / IPS'],
+    'Governance & Frameworks' => ['PSPF', 'ISM', 'DSM', 'ISO 27001', 'Essential Eight'],
+    'Development & Scripting' => ['Python', 'React', 'SQL', 'PowerShell', 'SPL'],
+];
+
+function e(string $value): string {
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+}
+?><!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Developer Portfolio – Jack Bell</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jack Bell | Cyber Security Portfolio</title>
+  <meta name="description" content="Portfolio website for Jack Anthony Bell, Security Engineer, SOC analyst, systems specialist, and developer.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <script defer src="main.js"></script>
 </head>
-<body class="dark">
-<header class="site-header">
-  <div class="container nav">
-    <a class="logo" href="/index.php"><span>&lt;c/&gt;</span> Jack Bell</a>
-
-    <nav id="main-nav" aria-label="Main navigation">
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-      <a href="https://github.com/Marss616">GitHub</a>
-      <a href="https://www.linkedin.com/in/jack-bell-90351a399">LinkedIn</a>
-      <a href="Jack Bell Resume 2025 2.pdf">Download CV</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <aside class="profile-card">
-        <img src="OwfB.gif" alt="Portrait of Jack Bell"/>
-        <div class="profile-meta">
-          <h3>Jack</h3>
-          <p>Full-Stack Developer</p>
-          <div class="profile-links">
-            <a href="https://github.com/Marss616" class="pill" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://www.linkedin.com/in/jack-bell-90351a399" class="pill" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="Jack Bell Resume 2025 2.pdf" download class="pill">Download CV</a>
-          </div>
-        </div>
-      </aside>
-
-      <div class="hero-copy">
-        <p class="eyebrow">Developer</p>
-        <h1>Hey, I’m <span class="accent">Jack</span>,<br/>Full-Stack Developer & Cyber Security Specialist</h1>
-        My work spans <strong>full-stack development</strong>, <strong>cloud engineering</strong>, 
-    <strong>digital forensics</strong>, and <strong>Cyber Security</strong>.
-        <div class="cta-row">
-          <a class="btn" href="#contact">Let’s Talk</a>
-          <a class="btn ghost" href="/blogs.html">Read about my work experience</a>
-        </div>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="#top">Jack Bell</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
       </div>
+    </header>
 
-      <div class="stats-bubble" aria-label="Experience stats">
-        <div><span>4</span><small>Years</small></div>
-        <div><span>20</span><small>Projects</small></div>
-        <div><span>6</span><small>Certs</small></div>
-        <div><span>16</span><small>Stack</small></div>
-        <div><span>4</span><small>Years Dev</small></div>
-        <div><span>3</span><small>Years Cyber</small></div>
-      </div>
-    </div>
+    <main id="top">
+      <section class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Security Engineer · SOC Analyst · Systems Specialist</p>
+            <h1>Jack Anthony Bell</h1>
+            <p class="hero-text">
+              Cyber security professional with hands-on experience across SOC operations, incident response,
+              Windows infrastructure, network administration, and practical engineering work.
+            </p>
 
-    <div class="topo" aria-hidden="true"></div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="about">
-    <div class="container about-grid">
-      <h2 class="section-title">
-  <img src="drawing.svg" alt="Animated graphic" class="title-gif" width="100%" height="100%"/>
-</h2>
-<div class="about-card">
-  <p>
-    Open to <strong>full-time roles</strong>, <strong>contract work</strong>, and 
-    <strong>freelance development or security projects</strong>. I work across both 
-    software engineering and cyber operations, building practical tools and solving 
-    real security problems.
-  </p>
-
-  <p>
-    I build secure web apps, automate workflows, analyse logs, investigate incidents, 
-    and design small-scale systems that blend development with defensive capability. 
-    I regularly work with SIEMs, packet captures, threat detections.
-  </p>
-
-  <p>
-    Whether it's building a tool, analysing an environment, or securing a system, 
-    my focus is always on <strong>clarity, reliability, and real-world impact</strong>.  
-    Explore my skills and projects below, and feel free to reach out any time through 
-    the contact form.
-  </p>
-</div>
-
-</section>
-
-  <!-- SKILLS -->
-<section id="skills" class="skills">
-  <div class="container">
-    <h2 class="section-title">Skills</h2>
-
-    <div class="skill-cards">
-
-      <!-- Full Stack -->
-      <article class="skill-card">
-        <h3>Full-Stack Web Development</h3>
-        <p>Designing and building responsive, accessible, and secure applications.</p>
-        <ul class="tags">
-          <li>HTML</li><li>CSS</li><li>JavaScript</li><li>TypeScript</li>
-          <li>React</li><li>Django</li>
-        </ul>
-      </article>
-
-      <!-- App Development -->
-      <article class="skill-card">
-        <h3>Application Development</h3>
-        <p>Building reliable tools, backend services, automation scripts, and secure system utilities.</p>
-        <ul class="tags">
-          <li>Python</li>
-          <li>Django</li>
-          <li>Bash</li>
-          <li>PowerShell</li>
-          <li>APIs</li>
-          <li>Automation</li>
-        </ul>
-      </article>
-
-      <!-- Digital Forensics / Blue Team -->
-      <article class="skill-card">
-        <h3>Digital Forensics & Blue Teaming</h3>
-        <p>Detection engineering, incident response, forensic analysis, and SOC tooling.</p>
-        <ul class="tags">
-          <li>SIEM</li><li>ELK</li><li>Splunk</li>
-          <li>Velociraptor</li><li>KAPE</li><li>Wireshark</li>
-        </ul>
-      </article>
-
-      <!-- Cloud + DevOps -->
-      <article class="skill-card">
-        <h3>Cloud & DevOps</h3>
-        <p>Deploying secure, scalable infrastructure with automation and monitoring.</p>
-        <ul class="tags">
-          <li>AWS</li><li>Azure</li><li>Linux</li>
-          <li>Nginx</li><li>Docker</li><li>Terraform</li>
-        </ul>
-      </article>
-
-      <!-- Pentesting -->
-      <article class="skill-card">
-        <h3>Pentesting & Offensive Security</h3>
-        <p>Practical exploitation, enumeration, privilege escalation, and OSCP-style labs.</p>
-        <ul class="tags">
-          <li>Nmap</li><li>Burp Suite</li><li>Hydra</li>
-          <li>LLMNR</li><li>SMB</li><li>Payload Crafting</li>
-        </ul>
-      </article>
-
-      <!-- System Admin -->
-      <article class="skill-card">
-        <h3>Systems Administration</h3>
-        <p>Managing and hardening servers, networking, and enterprise environments.</p>
-        <ul class="tags">
-          <li>Windows Server</li><li>Active Directory</li>
-          <li>Linux Admin</li><li>Bash</li><li>Powershell</li>
-        </ul>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-
-    <!-- projects with cms -->
-  <section id="projects" class="projects">
-    <div class="container">
-      <h2 class="section-title">Projects</h2>
-
-      <?php if (!$projects): ?>
-        <p>No projects yet – log in to <code>admin.php</code> to add some.</p>
-      <?php else: ?>
-        <?php foreach ($projects as $project): ?>
-          <div class="project-row">
-
-            <div class="project-images">
-              <?php if (!empty($project['img1'])): ?>
-                <img
-                  src="<?= htmlspecialchars($project['img1'], ENT_QUOTES, 'UTF-8') ?>"
-                  alt="<?= htmlspecialchars($project['title'], ENT_QUOTES, 'UTF-8') ?> screenshot 1">
-              <?php endif; ?>
-
-              <?php if (!empty($project['img2'])): ?>
-                <img
-                  src="<?= htmlspecialchars($project['img2'], ENT_QUOTES, 'UTF-8') ?>"
-                  alt="<?= htmlspecialchars($project['title'], ENT_QUOTES, 'UTF-8') ?> screenshot 2">
-              <?php endif; ?>
-
-              <?php if (!empty($project['img3'])): ?>
-                <img
-                  src="<?= htmlspecialchars($project['img3'], ENT_QUOTES, 'UTF-8') ?>"
-                  alt="<?= htmlspecialchars($project['title'], ENT_QUOTES, 'UTF-8') ?> screenshot 3">
-              <?php endif; ?>
+            <div class="hero-actions">
+              <a class="button" href="#contact">Contact Me</a>
+              <a class="button button-secondary" href="#projects">View Projects</a>
             </div>
 
-            <div class="project-info">
-              <h3><?= htmlspecialchars($project['title'], ENT_QUOTES, 'UTF-8') ?></h3>
-              <p><?= htmlspecialchars($project['description'], ENT_QUOTES, 'UTF-8') ?></p>
+            <dl class="quick-facts">
+              <div><dt>Location</dt><dd>Melbourne</dd></div>
+              <div><dt>Clearance</dt><dd>Negative Vetting Level 2</dd></div>
+              <div><dt>Website</dt><dd><a href="https://jackbellportfolio.com" target="_blank" rel="noopener">jackbellportfolio.com</a></dd></div>
+              <div><dt>GitHub</dt><dd><a href="https://github.com/marss616" target="_blank" rel="noopener">github.com/marss616</a></dd></div>
+              <div><dt>LinkedIn</dt><dd><a href="https://linkedin.com/in/jack-bell-90351a399" target="_blank" rel="noopener">linkedin.com/in/jack-bell-90351a399</a></dd></div>
+              <div><dt>Email</dt><dd><a href="mailto:jack.bell.work@outlook.com">jack.bell.work@outlook.com</a></dd></div>
+            </dl>
+          </div>
 
-              <?php
-                $tagsRaw = $project['tags'] ?? '';
-                $tagList = array_filter(array_map('trim', explode(',', $tagsRaw)));
-              ?>
-              <?php if (!empty($tagList)): ?>
-                <ul class="tags">
-                  <?php foreach ($tagList as $tag): ?>
-                    <li><?= htmlspecialchars($tag, ENT_QUOTES, 'UTF-8') ?></li>
+          <div class="hero-visual reveal">
+            <div class="visual-card">
+              <img src="gif.gif" alt="Abstract cyber style geometric graphic">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container about-grid">
+          <div class="section-heading reveal">
+            <p class="kicker">Profile</p>
+            <h2>About</h2>
+          </div>
+          <div class="card reveal">
+            <p>
+              I work across security operations, detection engineering, incident response, systems administration,
+              and practical infrastructure support. My background combines cyber security work inside structured
+              environments with hands-on delivery in networks, servers, and end-user technology.
+            </p>
+            <p>
+              This redesign keeps your PHP project system in place, but gives the site a more polished layout,
+              stronger information hierarchy, and a more professional cyber-focused visual style.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section section-alt">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="kicker">Career</p>
+            <h2>Experience</h2>
+          </div>
+
+          <div class="timeline">
+            <?php foreach ($experience as $item): ?>
+              <article class="timeline-item reveal">
+                <div class="timeline-meta">
+                  <span class="timeline-period"><?= e($item['period']) ?></span>
+                  <span class="timeline-org"><?= e($item['org']) ?></span>
+                </div>
+                <div class="timeline-content card">
+                  <h3><?= e($item['title']) ?></h3>
+                  <ul class="bullet-list">
+                    <?php foreach ($item['summary'] as $point): ?>
+                      <li><?= e($point) ?></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </div>
+              </article>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="kicker">Capability</p>
+            <h2>Skills</h2>
+          </div>
+
+          <div class="skill-grid">
+            <?php foreach ($skillGroups as $group => $items): ?>
+              <article class="card reveal">
+                <h3><?= e($group) ?></h3>
+                <ul class="tag-list">
+                  <?php foreach ($items as $skill): ?>
+                    <li><?= e($skill) ?></li>
                   <?php endforeach; ?>
                 </ul>
-              <?php endif; ?>
-
-              <?php if (!empty($project['link'])): ?>
-                <a class="project-link"
-                   href="<?= htmlspecialchars($project['link'], ENT_QUOTES, 'UTF-8') ?>"
-                   target="_blank" rel="noopener">
-                  View project →
-                </a>
-              <?php endif; ?>
-            </div>
-
+              </article>
+            <?php endforeach; ?>
           </div>
-        <?php endforeach; ?>
-      <?php endif; ?>
-    </div>
-  </section>
+        </div>
+      </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="contact">
-    <div class="container">
-      <h2 class="section-title">Let’s Work Together</h2>
-      <form class="contact-form" method="POST" action="/server/contact.php" novalidate>
-        <label class="sr-only" for="contact-name">Your name</label>
-        <input id="contact-name" type="text" name="name" placeholder="Your name" required>
+      <section class="section section-alt">
+        <div class="container two-col">
+          <div>
+            <div class="section-heading reveal">
+              <p class="kicker">Study</p>
+              <h2>Education</h2>
+            </div>
+            <div class="stack-list">
+              <?php foreach ($education as $item): ?>
+                <article class="card reveal mini-card">
+                  <h3><?= e($item['name']) ?></h3>
+                  <p><?= e($item['org']) ?></p>
+                  <span><?= e($item['period']) ?></span>
+                </article>
+              <?php endforeach; ?>
+            </div>
+          </div>
 
-        <label class="sr-only" for="contact-email">Email address</label>
-        <input id="contact-email" type="email" name="email" placeholder="Email address" required>
+          <div>
+            <div class="section-heading reveal">
+              <p class="kicker">Credentials</p>
+              <h2>Certificates</h2>
+            </div>
+            <div class="stack-list">
+              <?php foreach ($certs as $item): ?>
+                <article class="card reveal mini-card">
+                  <h3><?= e($item['name']) ?></h3>
+                  <p><?= e($item['org']) ?></p>
+                  <span><?= e($item['period']) ?></span>
+                </article>
+              <?php endforeach; ?>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <label class="sr-only" for="contact-message">Message</label>
-        <textarea id="contact-message" name="message" rows="4" placeholder="Message" required></textarea>
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="kicker">Work</p>
+            <h2>Projects</h2>
+          </div>
 
-        <!-- security -->
-        <input type="hidden" name="csrf" id="csrf">
-        <input
-          type="text"
-          name="website"
-          tabindex="-1"
-          autocomplete="off"
-          style="position:absolute;left:-9999px"
-          aria-hidden="true"
-        >
+          <?php if (!$projects): ?>
+            <div class="card reveal empty-state">
+              <p>No projects have been added yet. Use <code>admin.php</code> to add your project content.</p>
+            </div>
+          <?php else: ?>
+            <div class="projects-grid">
+              <?php foreach ($projects as $project): ?>
+                <?php
+                  $tagsRaw = $project['tags'] ?? '';
+                  $tagList = array_filter(array_map('trim', explode(',', $tagsRaw)));
+                ?>
+                <article class="project-card card reveal">
+                  <div class="project-media">
+                    <?php if (!empty($project['img1'])): ?>
+                      <img src="<?= e((string)$project['img1']) ?>" alt="<?= e((string)$project['title']) ?> image 1">
+                    <?php endif; ?>
+                    <?php if (!empty($project['img2'])): ?>
+                      <img src="<?= e((string)$project['img2']) ?>" alt="<?= e((string)$project['title']) ?> image 2">
+                    <?php endif; ?>
+                    <?php if (!empty($project['img3'])): ?>
+                      <img src="<?= e((string)$project['img3']) ?>" alt="<?= e((string)$project['title']) ?> image 3">
+                    <?php endif; ?>
+                  </div>
+                  <div class="project-body">
+                    <h3><?= e((string)$project['title']) ?></h3>
+                    <p><?= e((string)$project['description']) ?></p>
 
-        <button class="btn" type="submit">Send Message</button>
-      </form>
-    </div>
-  </section>
-</main>
+                    <?php if ($tagList): ?>
+                      <ul class="tag-list">
+                        <?php foreach ($tagList as $tag): ?>
+                          <li><?= e((string)$tag) ?></li>
+                        <?php endforeach; ?>
+                      </ul>
+                    <?php endif; ?>
 
-<footer class="site-footer">
-  <div class="container">
-    <p><span id="year"></span>Jack Bell 2025</p>
+                    <?php if (!empty($project['link'])): ?>
+                      <a class="text-link" href="<?= e((string)$project['link']) ?>" target="_blank" rel="noopener">View project</a>
+                    <?php endif; ?>
+                  </div>
+                </article>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </div>
+      </section>
+
+      <section id="contact" class="section section-alt">
+        <div class="container contact-grid">
+          <div class="section-heading reveal">
+            <p class="kicker">Connect</p>
+            <h2>Contact</h2>
+            <p class="contact-copy">
+              Open to cyber security, SOC, systems, and technical support opportunities.
+            </p>
+          </div>
+
+          <div class="card reveal">
+            <form class="contact-form" method="POST" action="contact.php" novalidate>
+              <label for="name">Name</label>
+              <input id="name" type="text" name="name" required>
+
+              <label for="email">Email</label>
+              <input id="email" type="email" name="email" required>
+
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+
+              <input type="hidden" name="csrf" id="csrf">
+              <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+              <button class="button" type="submit">Send Message</button>
+              <p id="form-status" class="form-status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <p>© <span id="year"></span> Jack Anthony Bell</p>
+        <a href="mailto:jack.bell.work@outlook.com">jack.bell.work@outlook.com</a>
+      </div>
+    </footer>
   </div>
-</footer>
 </body>
 </html>
